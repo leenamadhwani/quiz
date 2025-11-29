@@ -3,6 +3,7 @@ const SUPABASE_URL = "https://ftwalbzaeltqnhdarbru.supabase.co";
 const SUPABASE_KEY = "sb_pubL1shable_sHY9DNz5D8Kk1EzPrL8RTQ_wh7jAZsk";
 
 export const supabase = createclient(SUPABASE_URL,SUPABASE_KEY);
+module.exports = supabase;
 // SAVE RESULT TO SUPABASE
 const { data, error } = await supabase
   .from("quiz_scores")

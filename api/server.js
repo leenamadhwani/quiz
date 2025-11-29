@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import getQuestions from "./getQuestions.js";
 import registerUser from "./registerUser.js";
-import pkg from "@supabase/supabase-js"; const  { createclient } =pkg;
+import { supabase } from "./supabase-js";
+
 const app = express();
 app.use(cors());
 app.use(express.json());

@@ -1,4 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><!DOCTYPE html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -181,5 +182,76 @@
 
 <button onclick="downloadCertificate()">Download Certificate</button>
 <script src="app.js"></script>
+<script>
+  const SUPABASE_URL = "https://itwalbzaeltqnhdarbru.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_sNY9MDn25D8kKIEpRlbR7Q_whTjA2sK";
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  // STEP 3 START
+  async function loadQuestions() {
+    const { data , error } = await supabase
+      .from("questions")
+      .select("*");
+      if (error){
+        console.error(error);
+        return;
+      }
+      window.allQuestions = data;
+
+    console.log(data); // test
+  renderQuestions(0);
+    }
+
+
+  loadQuestions();
+  // STEP 3 END
+  let quizBox = document.getElementById("quizBox");
+quizBox.innerHTML = "";
+
+data.forEach((q, i) => {
+  quizBox.innerHTML += `
+    <div class="question">
+      <h3>Q${i+1}. ${q.question}</h3>
+      <div class="options">
+        <button onclick="check('${q.correct}', '${q.option1}')">${q.option1}</button>
+        <button onclick="check('${q.correct}', '${q.option2}')">${q.option2}</button>
+        <button onclick="check('${q.correct}', '${q.option3}')">${q.option3}</button>
+        <button onclick="check('${q.correct}', '${q.option4}')">${q.option4}</button>
+      </div>
+    </div>
+  `;
+});
+let score = 0;
+
+function check(correct, selected) {
+  if (correct === selected) score++;
+
+  console.log("Score:", score);
+}
+async function finishTest() {
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+
+  const { error } = await fetch("https://YOUR-RANDOR-URL/saveScore", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, score })
+  });
+
+  alert("Score Saved!");
+}
+<button onclick="finishTest()">Finish Test</button>
+window.location.href = 'certificate.html?name=${name}&score=${score}';
+function nextQuestion() {
+  currentIndex++;
+
+  if (currentIndex < allQuestions.length) {
+    renderQuestion(currentIndex);
+  } else {
+    document.getElementById("quiz-box").innerHTML =
+      "<h2>You finished the quiz!</h2>";
+  }
+}
+<button onclick="nextQuestion()">Next</button>
+</script>
 </body>
 </html>

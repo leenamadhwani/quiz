@@ -1,11 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
+import {supabase} from "./supabase.js";
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+export default async function getQuestions(req, res) {
+  const { data, error } = await supabase
+    .from("questions")
+    .select("*");
 
-export default async function handler(req, res) {
-  const { data, error } = await supabase.from('quiz_questions').select('*');
+  if (error) {
+    return res.status(400).json( error );
+  }
 
-  if (error) return res.status(500).json({ error: error.message });
-
-  res.status(200).json({ questions: data });
+  res.json(data);
 }

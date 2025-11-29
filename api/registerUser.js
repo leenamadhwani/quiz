@@ -1,3 +1,4 @@
-export default function handler(req, res) {
-  res.status(200).json({ message: "Working" });
+import { supabase } from "./supabase.js";
+export default async function registerUser(req, res,Supabase) {
+  res.json({ message: "User registered (temporary)" });
 }
